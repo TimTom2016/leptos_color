@@ -1,7 +1,7 @@
 use crate::{components::color_picker::ColorPicker, theme::Theme};
 use csscolorparser::Color;
 use floating_ui_leptos::{
-    use_floating, Alignment, AutoPlacement, AutoPlacementOptions, AutoUpdateOptions,
+    use_floating, Alignment, AutoPlacement, AutoPlacementOptions, AutoUpdateOptions, CrossAxis,
     DetectOverflowOptions, Flip, FlipOptions, MiddlewareVec, Offset, OffsetOptions, Padding,
     Placement, Shift, ShiftOptions, UseFloatingOptions, UseFloatingReturn,
 };
@@ -76,38 +76,44 @@ pub fn ColorInput(
     let reference_ref = AnyNodeRef::new();
     let floating_ref = AnyNodeRef::new();
     let (open, set_open) = signal(false);
-
+    let mut listener = StoredValue::new(None);
     // Click outside detection
-    let click_outside = window_event_listener(ev::click, move |ev| {
-        if !open.get() {
-            return;
-        }
-
-        let target = ev.target();
-        let target_node = target.and_then(|t| t.dyn_into::<web_sys::Node>().ok());
-
-        if let Some(target_node) = target_node {
-            if !reference_ref
-                .get()
-                .map(|r| r.contains(Some(&target_node)))
-                .unwrap_or(false)
-                && !floating_ref
-                    .get()
-                    .map(|f| f.contains(Some(&target_node)))
-                    .unwrap_or(false)
-            {
-                set_open.set(false);
+    Effect::new(move || {
+        listener.set_value(Some(window_event_listener(ev::click, move |ev| {
+            if !open.get() {
+                return;
             }
-        }
-    });
 
+            let target = ev.target();
+            let target_node = target.and_then(|t| t.dyn_into::<web_sys::Node>().ok());
+
+            if let Some(target_node) = target_node {
+                if !reference_ref
+                    .get()
+                    .map(|r| r.contains(Some(&target_node)))
+                    .unwrap_or(false)
+                    && !floating_ref
+                        .get()
+                        .map(|f| f.contains(Some(&target_node)))
+                        .unwrap_or(false)
+                {
+                    set_open.set(false);
+                }
+            }
+        })));
+    });
     let middleware: MiddlewareVec = vec![
         Box::new(Offset::new(OffsetOptions::Value(8.0))), // Increased offset
-        Box::new(Flip::new(FlipOptions::default().cross_axis(false))),
+        Box::new(Flip::new(
+            FlipOptions::default().cross_axis(CrossAxis::False),
+        )),
     ];
 
-    on_cleanup(move || {
-        click_outside.remove();
+    on_cleanup(move || match listener.into_inner() {
+        Some(Some(listener)) => {
+            listener.remove();
+        }
+        _ => {}
     });
     let UseFloatingReturn {
         floating_styles, ..
@@ -115,9 +121,9 @@ pub fn ColorInput(
         reference_ref,
         floating_ref,
         UseFloatingOptions::default()
-            .open(open.into())
-            .placement(Placement::Bottom.into())
-            .middleware(send_wrapper::SendWrapper::new(middleware).into())
+            .open(open)
+            .placement(Placement::Bottom)
+            .middleware(send_wrapper::SendWrapper::new(middleware))
             .while_elements_mounted_auto_update(),
     );
     let on_change2 = Callback::new(move |color: Color| on_change.run(color));

@@ -2,10 +2,11 @@ use csscolorparser::Color;
 use leptos::logging::warn;
 use leptos::prelude::*;
 
-use crate::{
-    hooks::use_position::{use_position, UsePositionProps},
-    mount_style::mount_style,
-};
+use crate::hooks::use_position::{use_position, UsePositionProps};
+mod style {
+    leptos_styling::style_sheet!(hue_style, "./src/components/hue.css", "leptos_color_hue");
+}
+use style::hue_style;
 /// A component for selecting the hue of a color.
 ///
 /// This component provides a horizontal slider that allows users to select
@@ -54,7 +55,6 @@ use crate::{
 /// This example creates a `Hue` component and displays the selected hue value in degrees.
 #[component]
 pub fn Hue(#[prop(into)] on_change: Callback<(f64, f64)>) -> impl IntoView {
-    mount_style("Hue", include_str!("./hue.css"));
     let handle_move = Callback::new(move |(left, top): (f64, f64)| on_change.run((left, top)));
 
     // Use the `use_position` hook to get the ref and handle_start function
@@ -62,11 +62,11 @@ pub fn Hue(#[prop(into)] on_change: Callback<(f64, f64)>) -> impl IntoView {
         on_move: handle_move.clone(),
     });
     view! {
-        <div class="leptos-color-hue-container" node_ref={ref_div} on:touchstart=move |ev| {
+        <div class=hue_style::LEPTOS_COLOR_HUE_CONTAINER node_ref={ref_div} on:touchstart=move |ev| {
             handle_start.run(ev.into())} on:mousedown=move |ev| {
             handle_start.run(ev.into())}>
-            <div class="leptos-color-hue-pointer">
-                <div class="leptos-color-hue-slider" />
+            <div class=hue_style::LEPTOS_COLOR_HUE_POINTER>
+                <div class=hue_style::LEPTOS_COLOR_HUE_SLIDER />
             </div>
         </div>
     }

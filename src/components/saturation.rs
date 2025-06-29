@@ -2,10 +2,16 @@ use csscolorparser::Color;
 use leptos::logging::warn;
 use leptos::prelude::*;
 
-use crate::{
-    hooks::use_position::{use_position, UsePositionProps},
-    mount_style::mount_style,
-};
+use crate::hooks::use_position::{use_position, UsePositionProps};
+mod style {
+    leptos_styling::style_sheet!(
+        saturation_style,
+        "./src/components/saturation.css",
+        "leptos_color_saturation"
+    );
+}
+use style::saturation_style;
+
 /// A component for selecting color saturation and value.
 ///
 /// This component provides a 2D area where the user can select the saturation and value
@@ -58,14 +64,6 @@ use crate::{
 /// This example creates a `Saturation` component and displays the selected saturation and value.
 #[component]
 pub fn Saturation(#[prop(into)] on_change: Callback<(f64, f64)>) -> impl IntoView {
-    mount_style("Saturation", include_str!("./saturation.css"));
-    // Callback for position changes, updates the color based on left and top
-    // let on_change = move |new_hsl: HSL| {
-    //     set_hsl.set(new_hsl);
-    //     // You can add additional logic if needed
-    //     log::info!("HSL updated: {:?}", new_hsl);
-    // };
-
     // Closure that handles the position move
     let handle_move = Callback::new(move |(left, top): (f64, f64)| on_change.run((left, top)));
 
@@ -74,23 +72,13 @@ pub fn Saturation(#[prop(into)] on_change: Callback<(f64, f64)>) -> impl IntoVie
         on_move: handle_move.clone(),
     });
     view! {
-        <div node_ref={ref_div} class="leptos-color-color" on:touchstart=move |ev| {
+        <div node_ref={ref_div} class=saturation_style::LEPTOS_COLOR_COLOR on:touchstart=move |ev| {
             handle_start.run(ev.into());} on:mousedown=move |ev| {
             handle_start.run(ev.into());}>
-            <style>r"
-            .saturation-white {
-                background: -webkit-linear-gradient(to right, #fff, rgba(255,255,255,0));
-                background: linear-gradient(to right, #fff, rgba(255,255,255,0));
-            }
-            .saturation-black {
-                background: -webkit-linear-gradient(to top, #000, rgba(0,0,0,0));
-                background: linear-gradient(to top, #000, rgba(0,0,0,0));
-            }
-            "</style>
-            <div class="saturation-white leptos-color-gradient">
-            <div class="saturation-black leptos-color-gradient" />
-            <div class="leptos-color-pointer">
-                <div class="leptos-color-circle" />
+            <div class=format!("{} {}",saturation_style::SATURATION_WHITE,saturation_style::LEPTOS_COLOR_GRADIENT)>
+            <div class=format!("{} {}",saturation_style::SATURATION_BLACK,saturation_style::LEPTOS_COLOR_GRADIENT) />
+            <div class=saturation_style::LEPTOS_COLOR_POINTER>
+                <div class=saturation_style::LEPTOS_COLOR_CIRCLE />
             </div>
             </div>
         </div>

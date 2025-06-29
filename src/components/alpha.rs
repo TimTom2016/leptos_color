@@ -2,10 +2,15 @@ use csscolorparser::Color;
 use leptos::logging::warn;
 use leptos::prelude::*;
 
-use crate::{
-    hooks::use_position::{use_position, UsePositionProps},
-    mount_style::mount_style,
-};
+use crate::hooks::use_position::{use_position, UsePositionProps};
+mod style {
+    leptos_styling::style_sheet!(
+        alpha_style,
+        "./src/components/alpha.css",
+        "leptos_color_alpha"
+    );
+}
+use style::alpha_style;
 /// A component for selecting the alpha (transparency) value of a color.
 ///
 /// This component provides a horizontal slider that allows users to select
@@ -53,9 +58,9 @@ use crate::{
 /// ```
 ///
 /// This example creates an `Alpha` component and displays the selected alpha value.
+
 #[component]
 pub fn Alpha(#[prop(into)] on_change: Callback<(f64, f64)>) -> impl IntoView {
-    mount_style("Alpha", include_str!("./alpha.css"));
     let handle_move = Callback::new(move |(left, top): (f64, f64)| on_change.run((left, top)));
 
     // Use the `use_position` hook to get the ref and handle_start function
@@ -63,13 +68,13 @@ pub fn Alpha(#[prop(into)] on_change: Callback<(f64, f64)>) -> impl IntoView {
         on_move: handle_move.clone(),
     });
     view! {
-        <div class="leptos-color-alpha-container" node_ref={ref_div} on:touchstart=move |ev| {
+        <div class=alpha_style::LEPTOS_COLOR_ALPHA_CONTAINER node_ref={ref_div} on:touchstart=move |ev| {
             handle_start.run(ev.into())} on:mousedown=move |ev| {
             handle_start.run(ev.into())}>
-            <div class="leptos-color-alpha-alpha" />
-            <div class="leptos-color-alpha-checkboard" />
-            <div class="leptos-color-alpha-pointer">
-                <div class="leptos-color-alpha-slider" />
+            <div class=alpha_style::LEPTOS_COLOR_ALPHA_ALPHA/>
+            <div class=alpha_style::LEPTOS_COLOR_ALPHA_CHECKBOARD />
+            <div class=alpha_style::LEPTOS_COLOR_ALPHA_POINTER>
+                <div class=alpha_style::LEPTOS_COLOR_ALPHA_SLIDER />
             </div>
         </div>
     }

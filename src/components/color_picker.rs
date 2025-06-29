@@ -1,12 +1,20 @@
 use crate::components::alpha::Alpha;
 use crate::components::hue::Hue;
+use crate::components::saturation::Saturation;
 use crate::theme::Theme;
-use crate::{components::saturation::Saturation, mount_style::mount_style};
 use csscolorparser::Color;
 use leptos::html::Div;
 use leptos::logging::warn;
 use leptos::prelude::*;
 use leptos_use::{use_css_var_with_options, UseCssVarOptions};
+mod style {
+    leptos_styling::style_sheet!(
+        color_picker_style,
+        "./src/components/color_picker.css",
+        "leptos_color_color_picker"
+    );
+}
+use style::color_picker_style;
 /// A comprehensive color picker component.
 ///
 /// This component provides a full-featured color picker with saturation/value selection,
@@ -67,7 +75,6 @@ pub fn ColorPicker(
     #[prop(into, optional)] hide_rgb: Signal<bool>,
     #[prop(into)] on_change: Callback<Color>,
 ) -> impl IntoView {
-    mount_style("ColorPicker", include_str!("./color_picker.css"));
     let el = NodeRef::<Div>::new();
     let (hue, set_hue) = use_css_var_with_options(
         "--lpc-hue",
@@ -187,7 +194,7 @@ pub fn ColorPicker(
     });
 
     view! {
-        <div node_ref={el} class="leptos-color-container" style=move || theme.with(|value| value.to_style())>
+        <div node_ref={el} class=color_picker_style::LEPTOS_COLOR_CONTAINER style=move || theme.with(|value| value.to_style())>
             <Saturation on_change=move |left: f64,top: f64| {
                 let mut hsva = color.get().to_hsva();
                 hsva[2] = (1.0 - top) as f32;
@@ -200,13 +207,13 @@ pub fn ColorPicker(
                 }
                 on_change.run(Color::from_hsva(hsva[0], hsva[1], hsva[2], hsva[3]));
             }/>
-            <div class="leptos-color-flex">
-                <div class="leptos-color-value-wrapper">
-                    <div class="leptos-color-checkboard">
-                        <div class="leptos-color-value" />
+            <div class=color_picker_style::LEPTOS_COLOR_FLEX>
+                <div class=color_picker_style::LEPTOS_COLOR_VALUE_WRAPPER>
+                    <div class=color_picker_style::LEPTOS_COLOR_CHECKBOARD>
+                        <div class=color_picker_style::LEPTOS_COLOR_VALUE />
                     </div>
                 </div>
-                <div class="leptos-color-ranges">
+                <div class=color_picker_style::LEPTOS_COLOR_RANGES>
                     <Hue on_change=move |left,_| {
                         let hsla = color.get().to_hsla();
                         on_change.run(Color::from_hsla((left*360.0) as f32, hsla[1], hsla[2], hsla[3]));
@@ -223,16 +230,16 @@ pub fn ColorPicker(
                 </div>
             </div>
 
-            <div class="leptos-color-inputs">
+            <div class=color_picker_style::LEPTOS_COLOR_INPUTS>
                 <Show
                     when=move || { !hide_hex.get()}
                 >
-                <label class="leptos-color-label">
-                    <div class="leptos-color-wrapper">
-                        <span class="leptos-color-prefix">"#"</span>
+                <label class=color_picker_style::LEPTOS_COLOR_LABEL>
+                    <div class=color_picker_style::LEPTOS_COLOR_WRAPPER>
+                        <span class=color_picker_style::LEPTOS_COLOR_PREFIX>"#"</span>
 
                         <input
-                        class="leptos-color-input"
+                        class=color_picker_style::LEPTOS_COLOR_INPUT
                         type="text"
                         name="hex"
                         style:width="54px"
@@ -259,10 +266,10 @@ pub fn ColorPicker(
                 <Show
                     when=move || { !hide_rgb.get()}
                 >
-                <label class="leptos-color-label">
-                    <div class="leptos-color-wrapper">
+                <label class=color_picker_style::LEPTOS_COLOR_LABEL>
+                    <div class=color_picker_style::LEPTOS_COLOR_WRAPPER>
                         <input
-                            class="leptos-color-input"
+                            class=color_picker_style::LEPTOS_COLOR_INPUT
                             prop:value=red
                             name="red"
                             type="number"
@@ -286,10 +293,10 @@ pub fn ColorPicker(
                             </div>
                         <span>"R"</span>
                     </label>
-                <label class="leptos-color-label">
-                    <div class="leptos-color-wrapper">
+                <label class=color_picker_style::LEPTOS_COLOR_LABEL>
+                    <div class=color_picker_style::LEPTOS_COLOR_WRAPPER>
                         <input
-                            class="leptos-color-input"
+                            class=color_picker_style::LEPTOS_COLOR_INPUT
                             prop:value=green
                             name="green"
                             type="number"
@@ -312,10 +319,10 @@ pub fn ColorPicker(
                     </div>
                     <span>"G"</span>
                 </label>
-                <label class="leptos-color-label">
-                    <div class="leptos-color-wrapper">
+                <label class=color_picker_style::LEPTOS_COLOR_LABEL>
+                    <div class=color_picker_style::LEPTOS_COLOR_WRAPPER>
                         <input
-                            class="leptos-color-input"
+                            class=color_picker_style::LEPTOS_COLOR_INPUT
                             prop:value=blue
                             name="blue"
                             type="number"
@@ -342,10 +349,10 @@ pub fn ColorPicker(
                 <Show
                     when=move || { !hide_alpha.get()}
                 >
-                <label class="leptos-color-label">
-                    <div class="leptos-color-wrapper">
+                <label class=color_picker_style::LEPTOS_COLOR_LABEL>
+                    <div class=color_picker_style::LEPTOS_COLOR_WRAPPER>
                     <input
-                        class="leptos-color-input"
+                        class=color_picker_style::LEPTOS_COLOR_INPUT
                         prop:value=alpha
                         name="alpha"
                         type="number"
