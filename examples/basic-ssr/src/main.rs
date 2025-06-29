@@ -1,16 +1,16 @@
-
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
     use axum::Router;
+    use basic_ssr::app::*;
     use leptos::logging::log;
     use leptos::prelude::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
-    use basic_ssr::app::*;
 
     let conf = get_configuration(None).unwrap();
     let addr = conf.leptos_options.site_addr;
     let leptos_options = conf.leptos_options;
+    let _ = leptos_styling::generate_style_sheets(leptos_options.clone());
     // Generate the list of routes in your Leptos App
     let routes = generate_route_list(App);
 

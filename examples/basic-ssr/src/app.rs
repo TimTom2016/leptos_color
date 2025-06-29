@@ -7,7 +7,7 @@ use leptos_router::{
     components::{Route, Router, Routes},
     StaticSegment,
 };
-
+use leptos_styling::StyleSheets;
 pub fn shell(options: LeptosOptions) -> impl IntoView {
     view! {
         <!DOCTYPE html>
@@ -18,6 +18,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
                 <AutoReload options=options.clone() />
                 <HydrationScripts options/>
                 <MetaTags/>
+                <StyleSheets/>
             </head>
             <body>
                 <App/>
