@@ -4,8 +4,8 @@ members = [".", "examples/basic-ssr"]
 
 [package]
 name = "leptos_color"
-version = "0.7.0"
-edition = "2021"
+version = "0.8.0"
+edition = "2024"
 license = "MIT"
 authors = ["Tim Persigehl <dev@timtom2016.com>"]
 description = "Leptos Color is a simple Crate that gives access to a color picker for leptos"
