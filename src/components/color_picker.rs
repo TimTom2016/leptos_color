@@ -4,7 +4,6 @@ use crate::components::saturation::Saturation;
 use crate::theme::Theme;
 use csscolorparser::Color;
 use leptos::html::Div;
-use leptos::logging::warn;
 use leptos::prelude::*;
 use leptos_use::{UseCssVarOptions, use_css_var_with_options};
 mod style {
@@ -76,7 +75,7 @@ pub fn ColorPicker(
     #[prop(into)] on_change: Callback<Color>,
 ) -> impl IntoView {
     let el = NodeRef::<Div>::new();
-    let (hue, set_hue) = use_css_var_with_options(
+    let (_, set_hue) = use_css_var_with_options(
         "--lpc-hue",
         UseCssVarOptions::default()
             .target(el)
@@ -125,7 +124,7 @@ pub fn ColorPicker(
             .observe(false),
     );
 
-    let (rgba, set_rgba) = use_css_var_with_options(
+    let (_, set_rgba) = use_css_var_with_options(
         "--lpc-rgba",
         UseCssVarOptions::default()
             .target(el)
@@ -133,7 +132,7 @@ pub fn ColorPicker(
             .observe(false),
     );
 
-    let (hue_pointer, set_hue_pointer) = use_css_var_with_options(
+    let (_, set_hue_pointer) = use_css_var_with_options(
         "--lpc-hue-pointer",
         UseCssVarOptions::default()
             .target(el)
@@ -141,7 +140,7 @@ pub fn ColorPicker(
             .observe(false),
     );
 
-    let (alpha_pointer, set_alpha_pointer) = use_css_var_with_options(
+    let (_, set_alpha_pointer) = use_css_var_with_options(
         "--lpc-alpha-pointer",
         UseCssVarOptions::default()
             .target(el)
@@ -149,7 +148,7 @@ pub fn ColorPicker(
             .observe(false),
     );
 
-    let (saturation_pointer_top, set_saturation_pointer_top) = use_css_var_with_options(
+    let (_, set_saturation_pointer_top) = use_css_var_with_options(
         "--lpc-saturation-pointer-top",
         UseCssVarOptions::default()
             .target(el)
@@ -157,7 +156,7 @@ pub fn ColorPicker(
             .observe(false),
     );
 
-    let (saturation_pointer_left, set_saturation_pointer_left) = use_css_var_with_options(
+    let (_, set_saturation_pointer_left) = use_css_var_with_options(
         "--lpc-saturation-pointer-left",
         UseCssVarOptions::default()
             .target(el)
@@ -171,7 +170,7 @@ pub fn ColorPicker(
         let hsla = color.get().to_hsla();
         let rgba = color.get().to_rgba8();
         let alpha = rgba[3];
-        let hex = color.get().to_hex_string();
+        let hex = color.get().to_css_hex();
         let hsva = color.get().to_hsva();
 
         set_hue.set((hsla[0] as u16).to_string());

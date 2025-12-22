@@ -1,11 +1,9 @@
 use crate::{components::color_picker::ColorPicker, theme::Theme};
 use csscolorparser::Color;
 use floating_ui_leptos::{
-    use_floating, Alignment, AutoPlacement, AutoPlacementOptions, AutoUpdateOptions, CrossAxis,
-    DetectOverflowOptions, Flip, FlipOptions, MiddlewareVec, Offset, OffsetOptions, Padding,
-    Placement, Shift, ShiftOptions, UseFloatingOptions, UseFloatingReturn,
+    CrossAxis, Flip, FlipOptions, MiddlewareVec, Offset, OffsetOptions, Placement,
+    UseFloatingOptions, UseFloatingReturn, use_floating,
 };
-use leptos::html::{Div, Input};
 use leptos::{ev, prelude::*};
 use leptos_node_ref::AnyNodeRef;
 use web_sys::wasm_bindgen::JsCast as _;
@@ -76,7 +74,7 @@ pub fn ColorInput(
     let reference_ref = AnyNodeRef::new();
     let floating_ref = AnyNodeRef::new();
     let (open, set_open) = signal(false);
-    let mut listener = StoredValue::new(None);
+    let listener = StoredValue::new(None);
     // Click outside detection
     Effect::new(move || {
         listener.set_value(Some(window_event_listener(ev::click, move |ev| {

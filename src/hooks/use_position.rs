@@ -1,4 +1,4 @@
-use leptos::ev::{mousemove, mouseup, touchend, touchmove, Event, UiEvent};
+use leptos::ev::{Event, UiEvent, mousemove, mouseup, touchend, touchmove};
 use leptos::html::Div;
 use leptos::prelude::*;
 use leptos_use::{use_document, use_event_listener};
@@ -81,8 +81,8 @@ enum MoveType {
 ///
 /// This example creates a draggable area that tracks and displays the current position.
 pub fn use_position(props: UsePositionProps) -> (NodeRef<Div>, Callback<UiEvent>) {
-    let (dragging, set_dragging) = create_signal(false);
-    let ref_div = create_node_ref::<Div>();
+    let (dragging, set_dragging) = signal(false);
+    let ref_div = NodeRef::<Div>::new();
 
     let limit = |value: f64| -> f64 { value.min(1.0).max(0.0) };
 
@@ -134,7 +134,7 @@ pub fn use_position(props: UsePositionProps) -> (NodeRef<Div>, Callback<UiEvent>
         set_dragging.set(false);
     };
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         let is_dragging = dragging.get();
         if is_dragging {
             let _ = use_event_listener(use_document(), mousemove, move |evt| {

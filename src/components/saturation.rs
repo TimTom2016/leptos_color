@@ -1,5 +1,3 @@
-use csscolorparser::Color;
-use leptos::logging::warn;
 use leptos::prelude::*;
 
 use crate::hooks::use_position::{UsePositionProps, use_position};

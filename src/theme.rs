@@ -7,15 +7,15 @@ pub struct Theme {
     /// The background color of the color picker.
     background: Color,
     /// The background color of input elements within the color picker.
-    inputBackground: Color,
+    input_background: Color,
     /// The primary text color used in the color picker.
     color: Color,
     /// The color used for borders in the color picker.
-    borderColor: Color,
+    border_color: Color,
     /// The border radius applied to elements in the color picker.
-    borderRadius: String,
+    border_radius: String,
     /// The box shadow applied to the color picker container.
-    boxShadow: String,
+    box_shadow: String,
     /// The width of the color picker container.
     width: String,
 }
@@ -39,11 +39,11 @@ impl Theme {
     pub fn light() -> Self {
         Self {
             background: "#fff".parse::<Color>().unwrap(),
-            inputBackground: "#f4f4f4".parse::<Color>().unwrap(),
+            input_background: "#f4f4f4".parse::<Color>().unwrap(),
             color: "#262626".parse::<Color>().unwrap(),
-            borderColor: "#d4d4d4".parse::<Color>().unwrap(),
-            borderRadius: "4px".to_string(),
-            boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.1)".to_string(),
+            border_color: "#d4d4d4".parse::<Color>().unwrap(),
+            border_radius: "4px".to_string(),
+            box_shadow: "0px 8px 16px rgba(0, 0, 0, 0.1)".to_string(),
             width: "280px".to_string(),
         }
     }
@@ -56,11 +56,11 @@ impl Theme {
     pub fn dark() -> Self {
         Self {
             background: "rgba(40, 40, 40, 0.95)".parse::<Color>().unwrap(),
-            inputBackground: "#454545".parse::<Color>().unwrap(),
+            input_background: "#454545".parse::<Color>().unwrap(),
             color: "#e3e3e3".parse::<Color>().unwrap(),
-            borderColor: "#575657".parse::<Color>().unwrap(),
-            borderRadius: "4px".to_string(),
-            boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.1)".to_string(),
+            border_color: "#575657".parse::<Color>().unwrap(),
+            border_radius: "4px".to_string(),
+            box_shadow: "0px 8px 16px rgba(0, 0, 0, 0.1)".to_string(),
             width: "280px".to_string(),
         }
     }
@@ -101,11 +101,11 @@ impl Theme {
     ) -> Self {
         Self {
             background,
-            inputBackground: input_background,
+            input_background: input_background,
             color,
-            borderColor: border_color,
-            borderRadius: border_radius,
-            boxShadow: box_shadow,
+            border_color: border_color,
+            border_radius: border_radius,
+            box_shadow: box_shadow,
             width,
         }
     }
@@ -116,7 +116,7 @@ impl Theme {
     }
 
     pub fn input_background(&mut self, input_background: Color) -> &mut Self {
-        self.inputBackground = input_background;
+        self.input_background = input_background;
         self
     }
 
@@ -126,17 +126,17 @@ impl Theme {
     }
 
     pub fn border_color(&mut self, border_color: Color) -> &mut Self {
-        self.borderColor = border_color;
+        self.border_color = border_color;
         self
     }
 
     pub fn border_radius(&mut self, border_radius: String) -> &mut Self {
-        self.borderRadius = border_radius;
+        self.border_radius = border_radius;
         self
     }
 
     pub fn box_shadow(&mut self, box_shadow: String) -> &mut Self {
-        self.boxShadow = box_shadow;
+        self.box_shadow = box_shadow;
         self
     }
 
@@ -165,12 +165,12 @@ impl Theme {
                  --lpc-border-radius: {}; \
                  --lpc-box-shadow: {}; \
                  --lpc-width: {};",
-            self.background.to_hex_string(),
-            self.inputBackground.to_hex_string(),
-            self.color.to_hex_string(),
-            self.borderColor.to_hex_string(),
-            self.borderRadius,
-            self.boxShadow,
+            self.background.to_css_hex(),
+            self.input_background.to_css_hex(),
+            self.color.to_css_hex(),
+            self.border_color.to_css_hex(),
+            self.border_radius,
+            self.box_shadow,
             self.width
         )
     }
