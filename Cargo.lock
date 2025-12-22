@@ -1414,7 +1414,7 @@ dependencies = [
 
 [[package]]
 name = "leptos_color"
-version = "0.8.0"
+version = "0.8.1"
 dependencies = [
  "csscolorparser",
  "floating-ui-leptos",

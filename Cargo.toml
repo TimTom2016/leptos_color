@@ -4,7 +4,7 @@ members = [".", "examples/basic-ssr"]
 
 [package]
 name = "leptos_color"
-version = "0.8.0"
+version = "0.8.1"
 edition = "2024"
 license = "MIT"
 authors = ["Tim Persigehl <dev@timtom2016.com>"]
