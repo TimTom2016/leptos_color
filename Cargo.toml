@@ -16,10 +16,8 @@ categories = ["wasm", "web-programming", "visualization"]
 readme = "README.md"
 
 [dependencies]
-cfg-if = "1.0.0"
 leptos = "0.8.0"
-leptos_meta = { version = "0.8.0", optional = true }
-leptos-use = { version = "0.16.0", default-features = false, features = [
+leptos-use = { version = "0.17.0", default-features = false, features = [
     "use_css_var",
     "use_event_listener",
 ] }
@@ -32,16 +30,16 @@ web-sys = { version = "0.3.70", features = [
     "Touch",
     "TouchInit",
 ] }
-csscolorparser = "0.7.0"
-floating-ui-leptos = { version = "0.5.0", optional = true }
+csscolorparser = "0.8.0"
+floating-ui-leptos = { version = "0.6.0", optional = true }
 send_wrapper = { version = "0.6.0", optional = true }
 leptos-node-ref = { version = "0.2.0", optional = true }
-leptos_styling = { version = "0.2.1" }
+leptos_styling = { version = "0.3.0" }
 
 [features]
 default = ["color_input"]
-csr = ["leptos/csr"]
-ssr = ["leptos/ssr", "leptos_meta/ssr", "leptos-use/ssr", "leptos_styling/ssr"]
+csr = []
+ssr = ["leptos-use/ssr", "leptos_styling/ssr"]
 hydrate = ["leptos/hydrate"]
 color_input = [
     "dep:floating-ui-leptos",

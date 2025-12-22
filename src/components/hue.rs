@@ -2,9 +2,9 @@ use csscolorparser::Color;
 use leptos::logging::warn;
 use leptos::prelude::*;
 
-use crate::hooks::use_position::{use_position, UsePositionProps};
+use crate::hooks::use_position::{UsePositionProps, use_position};
 mod style {
-    leptos_styling::style_sheet!(hue_style, "./src/components/hue.css", "leptos_color_hue");
+    leptos_styling::style_sheet!(hue_style, "./src/components/hue.css", "leptos_color");
 }
 use style::hue_style;
 /// A component for selecting the hue of a color.

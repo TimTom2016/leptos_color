@@ -6,12 +6,12 @@ use csscolorparser::Color;
 use leptos::html::Div;
 use leptos::logging::warn;
 use leptos::prelude::*;
-use leptos_use::{use_css_var_with_options, UseCssVarOptions};
+use leptos_use::{UseCssVarOptions, use_css_var_with_options};
 mod style {
     leptos_styling::style_sheet!(
         color_picker_style,
         "./src/components/color_picker.css",
-        "leptos_color_color_picker"
+        "leptos_color"
     );
 }
 use style::color_picker_style;

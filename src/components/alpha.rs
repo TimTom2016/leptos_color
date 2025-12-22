@@ -4,11 +4,7 @@ use leptos::prelude::*;
 
 use crate::hooks::use_position::{use_position, UsePositionProps};
 mod style {
-    leptos_styling::style_sheet!(
-        alpha_style,
-        "./src/components/alpha.css",
-        "leptos_color_alpha"
-    );
+    leptos_styling::style_sheet!(alpha_style, "./src/components/alpha.css", "leptos_color");
 }
 use style::alpha_style;
 /// A component for selecting the alpha (transparency) value of a color.
